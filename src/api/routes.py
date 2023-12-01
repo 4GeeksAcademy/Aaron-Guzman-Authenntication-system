@@ -1,23 +1,17 @@
 """
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
-from flask_bcrypt import Bcrypt
-from flask import Flask, request, jsonify, url_for, Blueprint
+
+from flask_jwt_extended import create_access_token, create_refresh_token, get_jwt_identity, jwt_required
+from flask import Flask, request, jsonify, url_for, Blueprint, current_app
 from api.models import db, User
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
-from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
-
 
 api = Blueprint('api', __name__)
 
 # Allow CORS requests to this API
 CORS(api)
-api.config["JWT_SECRET_KEY"] = "valor-variaable"
-
-jwt = JWTManager(api)
-
-bcrypt = Bcrypt(api)
 
 @api.route('/signup', methods=['POST'])
 def create_user():
@@ -29,18 +23,18 @@ def create_user():
         password = request.json.get('password')
 
 
-        if not email or not name or not birth_date or not address:
+        if not email or not name or not birth_date or not address or not password:
             return jsonify({'error': 'All fields are required'}), 400
         
         existing_user = User.query.filter_by(email=email).first()
         if existing_user:
             return jsonify({'error': 'User already exist'}), 409
         
-        password_hash = bcrypt.generate_password_hash(password).decode('utf-8')
+        password_hash = current_app.bcrypt.generate_password_hash(password).decode('utf-8')
         new_user = User(email=email, name=name, address=address, birth_date=birth_date, password= password_hash)
         db.session.add(new_user)
         db.session.commit()
-        return jsonify({"message": "user created successfully", "user_createdd": new_user}), 201
+        return jsonify({"message": "user created successfully", "user_createdd": new_user.serialize()}), 201
 
 
     except Exception as error:

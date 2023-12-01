@@ -2,6 +2,9 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 import os
+from datetime import timedelta
+from flask_jwt_extended import JWTManager
+from flask_bcrypt import Bcrypt
 from flask import Flask, request, jsonify, url_for, send_from_directory
 from flask_migrate import Migrate
 from flask_swagger import swagger
@@ -30,6 +33,17 @@ else:
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 MIGRATE = Migrate(app, db, compare_type=True)
 db.init_app(app)
+
+#Configuración bcrypt
+bcrypt = Bcrypt(app)
+app.bcrypt = bcrypt
+#Fin configuración bcrypt
+
+# Setup the Flask-JWT-Extended extension
+app.config["JWT_SECRET_KEY"] = os.getenv('JWT_SECRET')  # Change this!
+app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=24)
+app.config["JWT_REFRESH_TOKEN_EXPIRES"] = timedelta(days=365)
+jwt_extended = JWTManager(app)
 
 # add the admin
 setup_admin(app)
