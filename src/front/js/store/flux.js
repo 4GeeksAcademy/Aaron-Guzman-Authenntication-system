@@ -21,6 +21,24 @@ const getState = ({ getStore, getActions, setStore }) => {
 				getActions().changeColor(0, "green");
 			},
 
+			createNewUser: async (newUser) => {
+				try{
+					const resp = await fetch(process.env.BACKEND_URL + "/api/signup",{
+						method: "POST",
+						body: JSON.stringify(newUser),
+						headers: {
+							'Content-Type': 'application/json'
+						}
+					})
+
+
+				}
+
+				catch(error){
+					console.error("Cannot create the new user", error)
+				}
+			},
+
 			getMessage: async () => {
 				try{
 					// fetching data from the backend

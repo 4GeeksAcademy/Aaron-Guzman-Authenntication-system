@@ -3,7 +3,7 @@ This module takes care of starting the API Server, Loading the DB and Adding the
 """
 
 from flask_jwt_extended import create_access_token, create_refresh_token, get_jwt_identity, jwt_required
-from flask import Flask, request, jsonify, url_for, Blueprint, current_app
+from flask import Flask, request, jsonify, url_for, Blueprint, current_app, redirect, url_for
 from api.models import db, User
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
@@ -44,7 +44,7 @@ def create_user():
 @api.route('/login', methods=['POST'])
 def log_in():
     try:
-        email: request.json.get('email')
+        email= request.json.get('email')
         password = request.json.get('password')
 
 
@@ -54,7 +54,7 @@ def log_in():
         login_user = User.query.filter_by(email=request.json['email']).one()
 
         password_from_db =  login_user.password
-        true_o_false = bcrypt.check_password_hash(password_from_db, password)
+        true_o_false = current_app.bcrypt.check_password_hash(password_from_db, password)
 
         if true_o_false:
             user_id = login_user.id
@@ -66,3 +66,18 @@ def log_in():
 
     except Exception as error:
         return jsonify({"error": 'User email is not registered' + str(error)}), 500
+
+
+
+@api.route('/private')
+@jwt_required()
+def new_session():
+    current_user_id = get_jwt_identity()
+    if current_user_id:
+# Vista desbloqueada
+
+        return({"message":"View unlocked"}), 200
+    else:
+
+        error_response = jsonify({"error": "Invalid or not privided token"})
+        return redirect(url_for('api.log_in'))
