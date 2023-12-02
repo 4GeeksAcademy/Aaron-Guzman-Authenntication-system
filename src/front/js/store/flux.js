@@ -23,13 +23,21 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			createNewUser: async (newUser) => {
 				try{
-					const resp = await fetch(process.env.BACKEND_URL + "/api/signup",{
+					const response = await fetch(process.env.BACKEND_URL + "/api/signup",{
 						method: "POST",
 						body: JSON.stringify(newUser),
 						headers: {
 							'Content-Type': 'application/json'
 						}
-					})
+					});
+					if(!response.ok){
+						throw new Error("There was a problem request")
+					}
+						const data = await response.json()
+						console.log('User created sccessfully', data)
+						const actions = getActions();
+						
+					
 
 
 				}
