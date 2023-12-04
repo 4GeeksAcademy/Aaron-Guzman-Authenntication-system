@@ -5,3 +5,40 @@
     one more css for each page that will contain the selected used 
     on that page only (the ones not reused in other pages).
 */
+
+body{
+    background-color: black;
+}
+
+.navbar{
+    background-color: rgb(151, 40, 40);
+}
+
+.mainContent{
+justify-content: center;}
+
+.leftSide{
+    background-color: antiquewhite;
+    width: 30%;
+}
+
+.rightSide{
+    background-color: black;
+    width: 30%;
+
+}
+.card{
+    width: 100%;
+    height: 100%;
+}
+
+.leftCard{
+    background-color: beige;
+    border: solid 3px rgb(228, 93, 93);
+}
+
+.rightCard{
+    background-color: beige;
+    border: solid 3px rgb(228, 93, 93);
+
+}

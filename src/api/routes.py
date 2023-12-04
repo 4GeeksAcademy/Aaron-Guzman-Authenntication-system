@@ -7,6 +7,7 @@ from flask import Flask, request, jsonify, url_for, Blueprint, current_app, redi
 from api.models import db, User
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
+ 
 
 api = Blueprint('api', __name__)
 
@@ -74,10 +75,8 @@ def log_in():
 def new_session():
     current_user_id = get_jwt_identity()
     if current_user_id:
-# Vista desbloqueada
-
-        return({"message":"View unlocked"}), 200
+        
+        return({"message":"View unlocked", "access": True}), 200
     else:
 
-        error_response = jsonify({"error": "Invalid or not privided token"})
-        return redirect(url_for('api.log_in'))
+        return jsonify({"error": "You do not have  access to this page", "access": False})

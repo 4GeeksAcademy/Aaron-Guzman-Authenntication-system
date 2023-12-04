@@ -12,8 +12,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 					title: "SECOND",
 					background: "white",
 					initial: "white"
-				}
-			]
+				}, 
+
+			],
+
+			userAccess : false
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
@@ -36,14 +39,28 @@ const getState = ({ getStore, getActions, setStore }) => {
 						const data = await response.json()
 						console.log('User created sccessfully', data)
 						const actions = getActions();
-						
-					
-
 
 				}
 
 				catch(error){
 					console.error("Cannot create the new user", error)
+				}
+			},
+
+			tokenConfirmation: async () => {
+				try{
+					const response = await fetch(process.env.BACKEND_URL + "/api/private");
+					
+					if(!response.ok){
+						throw new Error("There was a problem request")
+					}
+					const data = await response.json();
+					if(data.access) {store.userAcces = true;}
+					console.log("Token validado exitosamente", data);
+				}
+
+				catch(error){
+					console.error("There was an error trying to take the confirmation", error)
 				}
 			},
 

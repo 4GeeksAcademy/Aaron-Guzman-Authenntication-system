@@ -11,6 +11,8 @@ import injectContext from "./store/appContext";
 import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
 import CallSignup from "./pages/CallSignup.js";
+import CallLogin  from "./pages/CallLogin.js";
+import CallPrivate from "./pages/CallPrivate.js";
 
 //create your first component
 const Layout = () => {
@@ -29,6 +31,8 @@ const Layout = () => {
                         <Route element={<Home />} path="/" />
                         <Route element={<Demo />} path="/demo" />
                         <Route element={<CallSignup />} path="/signup" />
+                        <Route element={<CallLogin />} path="/login" />
+                        <Route element={<CallPrivate />} path="/private" />
                         <Route element={<Single />} path="/single/:theid" />
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>
