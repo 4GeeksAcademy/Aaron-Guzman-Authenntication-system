@@ -47,16 +47,33 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
-			tokenConfirmation: async () => {
+			tokenConfirmation: async (user) => {
 				try{
-					const response = await fetch(process.env.BACKEND_URL + "/api/private");
+					const response = await fetch(process.env.BACKEND_URL + "/api/login",{
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json"
+						},
+						body: JSON.stringify(user)
+					});
 					
 					if(!response.ok){
 						throw new Error("There was a problem request")
 					}
 					const data = await response.json();
-					if(data.access) {store.userAcces = true;}
-					console.log("Token validado exitosamente", data);
+					console.log("data:", data)
+					if(response.ok){
+						setStore({
+							userAccess: true
+						})
+						return response.status
+					}
+
+					// if(data.access === true){ 
+					// console.log("Llamada de set store")
+					// setStore({userAcces : true});}
+					// console.log("Token validado exitosamente", data);
+					
 				}
 
 				catch(error){

@@ -12,22 +12,38 @@ const Login = () => {
   
   
     const handlerLogin = async () => {
-      try{
-        if(inputEmail == "" || inputPassword == ""){
-        alert("All fields are required")
-      return
-    }
-  
+      if(inputEmail == "" || inputPassword == ""){
+            alert("All fields are required")
+           return
+      }
+
       let loginUser = {
-        email: inputEmail,
-        password: inputPassword
-      }
+            email: inputEmail,
+            password: inputPassword
+          }
+
+          const result = await actions.tokenConfirmation(loginUser)
+          if(result == 200){
+            navigate("/private")
+          }else{
+            alert("Bad credential");
+          }
+    //   try{
+    //     if(inputEmail == "" || inputPassword == ""){
+    //     alert("All fields are required")
+    //   return
+    // }
   
-      await actions.createNewUser(loginUser)
-      navigate("/demo")
-      }catch(error){
-        console.error("Error trying to create new user", error)
-      }
+    //   let loginUser = {
+    //     email: inputEmail,
+    //     password: inputPassword
+    //   }
+  
+    //   await actions.tokenConfirmation()
+    //   navigate("/private")      
+    //   }catch(error){
+    //     console.error("Error trying to create new user", error)
+    //   }
     }
   
   

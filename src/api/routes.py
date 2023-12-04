@@ -60,10 +60,10 @@ def log_in():
         if true_o_false:
             user_id = login_user.id
             access_token = create_access_token(identity=user_id)
-            return { 'access_token':access_token}, 200
-        
+            return jsonify({ 'access_token':access_token, "access": True}), 200
+    
         else:
-            return{"Error": "Contraseña incorrrecta"}
+            return{"Error": "Wrong password", "access": False}
 
     except Exception as error:
         return jsonify({"error": 'User email is not registered' + str(error)}), 500
@@ -76,7 +76,8 @@ def new_session():
     current_user_id = get_jwt_identity()
     if current_user_id:
         
-        return({"message":"View unlocked", "access": True}), 200
+        return({"message":"View unlocked"}), 200
     else:
 
-        return jsonify({"error": "You do not have  access to this page", "access": False})
+        return jsonify({"error": "You do not have  access to this page"})
+
