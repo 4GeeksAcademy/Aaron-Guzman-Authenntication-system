@@ -11,7 +11,8 @@ body{
 }
 
 .navbar{
-    background-color: rgb(151, 40, 40);
+    background-color: brown;
+
 }
 
 .mainContent{
@@ -41,4 +42,8 @@ justify-content: center;}
     background-color: beige;
     border: solid 3px rgb(228, 93, 93);
 
+}
+
+.transparent{
+    opacity: 0;
 }

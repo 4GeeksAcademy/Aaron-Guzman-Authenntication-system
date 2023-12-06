@@ -23,27 +23,15 @@ const Login = () => {
           }
 
           const result = await actions.tokenConfirmation(loginUser)
-          if(result == 200){
+          console.log("This is the result:", result)
+          if(result && result.access){
+            const token = result.access_token;
+            sessionStorage.setItem('token', token)
             navigate("/private")
           }else{
-            alert("Bad credential");
+            alert("email or password incorrect");
           }
-    //   try{
-    //     if(inputEmail == "" || inputPassword == ""){
-    //     alert("All fields are required")
-    //   return
-    // }
-  
-    //   let loginUser = {
-    //     email: inputEmail,
-    //     password: inputPassword
-    //   }
-  
-    //   await actions.tokenConfirmation()
-    //   navigate("/private")      
-    //   }catch(error){
-    //     console.error("Error trying to create new user", error)
-    //   }
+    
     }
   
   

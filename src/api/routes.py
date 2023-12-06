@@ -3,7 +3,7 @@ This module takes care of starting the API Server, Loading the DB and Adding the
 """
 
 from flask_jwt_extended import create_access_token, create_refresh_token, get_jwt_identity, jwt_required
-from flask import Flask, request, jsonify, url_for, Blueprint, current_app, redirect, url_for
+from flask import Flask, request, jsonify, url_for, Blueprint, current_app, redirect, url_for, session
 from api.models import db, User
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
@@ -63,7 +63,7 @@ def log_in():
             return jsonify({ 'access_token':access_token, "access": True}), 200
     
         else:
-            return{"Error": "Wrong password", "access": False}
+            return{"Error": "Wrong password", "access": False}, 400
 
     except Exception as error:
         return jsonify({"error": 'User email is not registered' + str(error)}), 500
@@ -79,5 +79,5 @@ def new_session():
         return({"message":"View unlocked"}), 200
     else:
 
-        return jsonify({"error": "You do not have  access to this page"})
+        return jsonify({"error": "You do not have  access to this page"}), 400
 

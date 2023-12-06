@@ -66,7 +66,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						setStore({
 							userAccess: true
 						})
-						return response.status
+						return data;
 					}
 
 					// if(data.access === true){ 

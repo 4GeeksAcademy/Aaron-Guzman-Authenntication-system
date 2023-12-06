@@ -9,7 +9,7 @@ export const Home = () => {
 
 	return (
 		<div className="text-center mt-5 mainBody">
-			<h1>Welecome</h1>
+			<h1>Welcome</h1>
 			
 			<div className="mainContent d-flex">
 
