@@ -47,3 +47,14 @@ justify-content: center;}
 .transparent{
     opacity: 0;
 }
+
+.navContainer {
+    display: flex;
+    justify-content: end;
+    align-items: end;
+    align-content: end;
+}
+
+.logOutButton{
+margin-left: 60rem;
+}
